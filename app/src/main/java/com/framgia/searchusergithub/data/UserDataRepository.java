@@ -4,21 +4,21 @@ import com.framgia.searchusergithub.data.model.User;
 
 import java.util.List;
 
-public class DataRepository {
+public class UserDataRepository {
 
     private UserDataSource mLocalDataSource;
     private UserDataSource mRemoteDataSource;
 
-    private static DataRepository mDataRepos;
+    private static UserDataRepository mDataRepos;
 
-    public DataRepository(UserDataSource localDataSource, UserDataSource remoteDataSource) {
+    public UserDataRepository(UserDataSource localDataSource, UserDataSource remoteDataSource) {
         mLocalDataSource = localDataSource;
         mRemoteDataSource = remoteDataSource;
     }
 
-    public static synchronized DataRepository getInstance(UserDataSource remoteDataSource, UserDataSource localDataSource) {
+    public static synchronized UserDataRepository getInstance(UserDataSource remoteDataSource, UserDataSource localDataSource) {
         if (mDataRepos == null) {
-            mDataRepos = new DataRepository(remoteDataSource, localDataSource);
+            mDataRepos = new UserDataRepository(remoteDataSource, localDataSource);
         }
         return mDataRepos;
     }

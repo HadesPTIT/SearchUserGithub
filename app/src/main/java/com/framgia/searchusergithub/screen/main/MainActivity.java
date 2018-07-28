@@ -11,10 +11,11 @@ import android.widget.ProgressBar;
 
 import com.framgia.searchusergithub.R;
 import com.framgia.searchusergithub.constant.Constant;
-import com.framgia.searchusergithub.data.DataRepository;
+import com.framgia.searchusergithub.data.UserDataRepository;
 import com.framgia.searchusergithub.data.model.User;
 import com.framgia.searchusergithub.data.source.remote.UserRemoteDataSource;
 import com.framgia.searchusergithub.screen.BaseActivity;
+import com.framgia.searchusergithub.screen.task.TaskActivity;
 import com.framgia.searchusergithub.screen.user.UsersActivity;
 import com.framgia.searchusergithub.utils.NetworkReceiver;
 
@@ -29,6 +30,7 @@ public class MainActivity extends BaseActivity implements MainContract.View, Net
     private Group mGroup;
     private ProgressBar mProgressBar;
     private boolean isConnected = false;
+    private Button mBtnTask;
 
     private MainContract.Presenter mPresenter;
 
@@ -40,8 +42,8 @@ public class MainActivity extends BaseActivity implements MainContract.View, Net
 
         setupView();
 
-        DataRepository dataRepository = DataRepository.getInstance(null, UserRemoteDataSource.getInstance());
-        mPresenter = new MainPresenter(this, dataRepository);
+        UserDataRepository userDataRepository = UserDataRepository.getInstance(null, UserRemoteDataSource.getInstance());
+        mPresenter = new MainPresenter(this, userDataRepository);
         mPresenter.start();
 
         mBtnSearch.setOnClickListener(new View.OnClickListener() {
@@ -54,6 +56,14 @@ public class MainActivity extends BaseActivity implements MainContract.View, Net
                 }
             }
         });
+
+        mBtnTask.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mPresenter.openTaskManager();
+            }
+        });
+
         setupNetworkBroadcastReceiver(this);
     }
 
@@ -87,6 +97,12 @@ public class MainActivity extends BaseActivity implements MainContract.View, Net
     }
 
     @Override
+    public void gotoTaskActivity() {
+        Intent intent = new Intent(this, TaskActivity.class);
+        startActivity(intent);
+    }
+
+    @Override
     public void setPresenter(MainContract.Presenter presenter) {
         this.mPresenter = presenter;
     }
@@ -97,6 +113,7 @@ public class MainActivity extends BaseActivity implements MainContract.View, Net
         mEditLimitResult = findViewById(R.id.edit_limit);
         mGroup = findViewById(R.id.group);
         mProgressBar = findViewById(R.id.progressBar);
+        mBtnTask = findViewById(R.id.button_task_room);
     }
 
     @Override

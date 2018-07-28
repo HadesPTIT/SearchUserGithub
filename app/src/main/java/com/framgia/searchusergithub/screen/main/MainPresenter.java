@@ -4,7 +4,7 @@ import android.content.Context;
 import android.text.TextUtils;
 
 import com.framgia.searchusergithub.R;
-import com.framgia.searchusergithub.data.DataRepository;
+import com.framgia.searchusergithub.data.UserDataRepository;
 import com.framgia.searchusergithub.data.UserDataSource;
 import com.framgia.searchusergithub.data.model.User;
 
@@ -13,11 +13,11 @@ import java.util.List;
 public class MainPresenter implements MainContract.Presenter {
 
     private MainContract.View mView;
-    private DataRepository mDataRepository;
+    private UserDataRepository mUserDataRepository;
 
-    public MainPresenter(MainContract.View view, DataRepository dataRepository) {
+    public MainPresenter(MainContract.View view, UserDataRepository userDataRepository) {
         this.mView = view;
-        this.mDataRepository = dataRepository;
+        this.mUserDataRepository = userDataRepository;
     }
 
     @Override
@@ -31,7 +31,7 @@ public class MainPresenter implements MainContract.Presenter {
             mView.setLimitError(((Context) mView).getString(R.string.error_limit_result));
         } else {
             mView.showLoginProgress(true);
-            mDataRepository.getUsers(keyword, Integer.parseInt(limit), new UserDataSource.GetUserCallback() {
+            mUserDataRepository.getUsers(keyword, Integer.parseInt(limit), new UserDataSource.GetUserCallback() {
                 @Override
                 public void onSuccess(List<User> users) {
                     mView.showLoginProgress(false);
@@ -53,6 +53,11 @@ public class MainPresenter implements MainContract.Presenter {
     @Override
     public void start() {
         mView.setPresenter(this);
+    }
+
+    @Override
+    public void openTaskManager() {
+        mView.gotoTaskActivity();
     }
 
 }

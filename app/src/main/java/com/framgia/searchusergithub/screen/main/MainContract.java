@@ -12,6 +12,8 @@ public interface MainContract {
 
         void search(String keyword, String limit);
 
+        void openTaskManager();
+
     }
 
     interface View extends BaseView<Presenter> {
@@ -25,6 +27,8 @@ public interface MainContract {
         void showNetworkError();
 
         void gotoUsersActivity(List<User> users);
+
+        void gotoTaskActivity();
 
     }
 }
