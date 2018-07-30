@@ -18,9 +18,9 @@ public interface MainContract {
 
     interface View extends BaseView<Presenter> {
 
-        void setKeyWordError(String error);
+        void setKeyWordError(int errorCode);
 
-        void setLimitError(String error);
+        void setLimitError(int errorCode);
 
         void showLoginProgress(boolean show);
 

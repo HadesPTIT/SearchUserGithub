@@ -67,14 +67,19 @@ public class MainActivity extends BaseActivity implements MainContract.View, Net
         setupNetworkBroadcastReceiver(this);
     }
 
+
     @Override
-    public void setKeyWordError(String error) {
-        mEditKeyWord.setError(error);
+    public void setKeyWordError(int errorCode) {
+        mEditKeyWord.setError(getString(R.string.error_field_required));
     }
 
     @Override
-    public void setLimitError(String error) {
-        mEditLimitResult.setError(error);
+    public void setLimitError(int errorCode) {
+        if (errorCode == Constant.ERROR_FIELD_REQUIRED) {
+            mEditLimitResult.setError(getString(R.string.error_field_required));
+        } else {
+            mEditLimitResult.setError(getString(R.string.error_limit_result));
+        }
     }
 
     @Override

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.text.TextUtils;
 
 import com.framgia.searchusergithub.R;
+import com.framgia.searchusergithub.constant.Constant;
 import com.framgia.searchusergithub.data.UserDataRepository;
 import com.framgia.searchusergithub.data.UserDataSource;
 import com.framgia.searchusergithub.data.model.User;
@@ -24,11 +25,11 @@ public class MainPresenter implements MainContract.Presenter {
     public void search(String keyword, String limit) {
 
         if (TextUtils.isEmpty(keyword)) {
-            mView.setKeyWordError(((Context) mView).getString(R.string.error_field_required));
+            mView.setKeyWordError(Constant.ERROR_FIELD_REQUIRED);
         } else if (TextUtils.isEmpty(limit)) {
-            mView.setLimitError(((Context) mView).getString(R.string.error_field_required));
+            mView.setLimitError(Constant.ERROR_FIELD_REQUIRED);
         } else if (Integer.parseInt(limit) > 100 || Integer.parseInt(limit) < 0) {
-            mView.setLimitError(((Context) mView).getString(R.string.error_limit_result));
+            mView.setLimitError(Constant.ERROR_LIMIT);
         } else {
             mView.showLoginProgress(true);
             mUserDataRepository.getUsers(keyword, Integer.parseInt(limit), new UserDataSource.GetUserCallback() {

@@ -16,7 +16,8 @@ public class UserDataRepository {
         mRemoteDataSource = remoteDataSource;
     }
 
-    public static synchronized UserDataRepository getInstance(UserDataSource remoteDataSource, UserDataSource localDataSource) {
+    public static synchronized UserDataRepository getInstance(
+            UserDataSource remoteDataSource, UserDataSource localDataSource) {
         if (mDataRepos == null) {
             mDataRepos = new UserDataRepository(remoteDataSource, localDataSource);
         }
