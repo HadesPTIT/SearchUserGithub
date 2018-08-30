@@ -1,15 +1,15 @@
 package com.framgia.searchusergithub.screen.main;
 
-import android.content.Context;
 import android.text.TextUtils;
 
-import com.framgia.searchusergithub.R;
 import com.framgia.searchusergithub.constant.Constant;
 import com.framgia.searchusergithub.data.UserDataRepository;
-import com.framgia.searchusergithub.data.UserDataSource;
-import com.framgia.searchusergithub.data.model.User;
+import com.framgia.searchusergithub.data.model.GitResponse;
 
-import java.util.List;
+import io.reactivex.SingleObserver;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 
 public class MainPresenter implements MainContract.Presenter {
 
@@ -32,22 +32,24 @@ public class MainPresenter implements MainContract.Presenter {
             mView.setLimitError(Constant.ERROR_LIMIT);
         } else {
             mView.showLoginProgress(true);
-            mUserDataRepository.getUsers(keyword, Integer.parseInt(limit), new UserDataSource.GetUserCallback() {
-                @Override
-                public void onSuccess(List<User> users) {
-                    mView.showLoginProgress(false);
-                    mView.gotoUsersActivity(users);
-                }
 
-                @Override
-                public void onFailed(Throwable throwable) {
-                }
+            mUserDataRepository.getUsers(keyword, Integer.parseInt(limit)).subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new SingleObserver<GitResponse>() {
+                        @Override
+                        public void onSubscribe(Disposable d) {
+                        }
 
-                @Override
-                public void onNetworkError() {
-                    mView.showNetworkError();
-                }
-            });
+                        @Override
+                        public void onSuccess(GitResponse gitResponse) {
+                            mView.gotoUsersActivity(gitResponse.getUsers());
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+                            mView.showNetworkError();
+                        }
+                    });
         }
     }
 
