@@ -1,8 +1,11 @@
 package com.framgia.searchusergithub.data;
 
+import com.framgia.searchusergithub.data.model.GitResponse;
 import com.framgia.searchusergithub.data.model.User;
 
 import java.util.List;
+
+import io.reactivex.Single;
 
 public abstract class UserDataSource {
 
@@ -16,6 +19,6 @@ public abstract class UserDataSource {
 
     }
 
-    public abstract void getUsers(String keyword, int limit, GetUserCallback callback);
+    public abstract Single<GitResponse> getUsers(String keyword, int limit);
 
 }

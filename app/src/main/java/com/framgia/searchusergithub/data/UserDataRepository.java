@@ -1,8 +1,11 @@
 package com.framgia.searchusergithub.data;
 
+import com.framgia.searchusergithub.data.model.GitResponse;
 import com.framgia.searchusergithub.data.model.User;
 
 import java.util.List;
+
+import io.reactivex.Single;
 
 public class UserDataRepository {
 
@@ -24,22 +27,7 @@ public class UserDataRepository {
         return mDataRepos;
     }
 
-    public void getUsers(String keyword, int limit, final UserDataSource.GetUserCallback callback) {
-        mRemoteDataSource.getUsers(keyword, limit, new UserDataSource.GetUserCallback() {
-            @Override
-            public void onSuccess(List<User> users) {
-                callback.onSuccess(users);
-            }
-
-            @Override
-            public void onFailed(Throwable throwable) {
-                callback.onFailed(throwable);
-            }
-
-            @Override
-            public void onNetworkError() {
-                callback.onNetworkError();
-            }
-        });
+    public Single<GitResponse> getUsers(String keyword, int limit) {
+        return mRemoteDataSource.getUsers(keyword, limit);
     }
 }

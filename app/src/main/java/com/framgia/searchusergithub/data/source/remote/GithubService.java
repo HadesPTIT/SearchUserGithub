@@ -2,6 +2,9 @@ package com.framgia.searchusergithub.data.source.remote;
 
 import com.framgia.searchusergithub.data.model.GitResponse;
 
+import io.reactivex.Flowable;
+import io.reactivex.Observable;
+import io.reactivex.Single;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
@@ -12,5 +15,5 @@ import retrofit2.http.Query;
 public interface GithubService {
 
     @GET("search/users")
-    Call<GitResponse> listUsers(@Query("q") String name, @Query("per_page") int limit);
+    Single<GitResponse> listUsers(@Query("q") String name, @Query("per_page") int limit);
 }
